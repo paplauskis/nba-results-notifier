@@ -22,7 +22,7 @@ public class GameScrapingService : IGameScraper
 
         foreach (HtmlNode node in nodes)
         {
-                ExtractGameInfo(node);
+            ExtractGameInfo(node);
         }
 
         return games;
@@ -30,11 +30,15 @@ public class GameScrapingService : IGameScraper
 
     private void ExtractGameInfo(HtmlNode node)
     {
+        var firstTeamGeneralInfo = node.SelectNodes("./child::table[not(@class)]/tbody/tr[not(@class)]")[0];
+        var secondTeamGeneralInfo = node.SelectNodes("./child::table[not(@class)]/tbody/tr[not(@class)]")[1];
+        var team = ExtractTeamInfo(firstTeamGeneralInfo);
+        var secondTeam = ExtractTeamInfo(secondTeamGeneralInfo);
         
     }
 
-    private void ExtractTeamInfo(HtmlNode node)
+    private Team ExtractTeamInfo(HtmlNode node)
     {
-        
+        throw new NotImplementedException();
     }
 }
