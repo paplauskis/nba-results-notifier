@@ -9,7 +9,7 @@ public class GameScrapingService : IGameScraper
     private const string URL = "https://www.basketball-reference.com/boxscores/";
     private readonly HtmlWeb _web;
     private readonly HtmlDocument _document;
-    List<Game>? games = new();
+    private readonly List<Game>? _games = new();
     
     public GameScrapingService() {
         _web = new HtmlWeb();
@@ -22,21 +22,25 @@ public class GameScrapingService : IGameScraper
 
         foreach (HtmlNode node in nodes)
         {
-            ExtractGameInfo(node);
+            var game = ExtractGameInfo(node);
+            _games.Add(game);
         }
 
-        return games;
+        return _games;
     }
 
-    private void ExtractGameInfo(HtmlNode node)
+    private Game ExtractGameInfo(HtmlNode node)
     {
         var firstTeamGeneralInfo = node.SelectNodes("./child::table[not(@class)]/tbody/tr[not(@class)]")[0];
         var secondTeamGeneralInfo = node.SelectNodes("./child::table[not(@class)]/tbody/tr[not(@class)]")[1];
         var team = ExtractTeamInfo(firstTeamGeneralInfo);
         var secondTeam = ExtractTeamInfo(secondTeamGeneralInfo);
-        
-        Console.WriteLine(team.ToString());
-        Console.WriteLine(secondTeam.ToString());
+
+        return new Game
+        {
+            HomeTeam = team,
+            AwayTeam = secondTeam,
+        };
     }
 
     private Team ExtractTeamInfo(HtmlNode node)
