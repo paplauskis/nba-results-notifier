@@ -13,4 +13,6 @@ public class Team
     public short ThirdQuarterPoints { get; set; }
     
     public short FourthQuarterPoints { get; set; }
+    
+    public List<short> OtPoints { get; set; } = new();
 }
