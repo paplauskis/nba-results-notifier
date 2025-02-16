@@ -14,5 +14,5 @@ public class Team
     
     public short FourthQuarterPoints { get; set; }
     
-    public List<short> OtPoints { get; set; } = new();
+    public List<short>? OtPoints { get; set; } = new();
 }
