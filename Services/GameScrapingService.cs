@@ -35,10 +35,49 @@ public class GameScrapingService : IGameScraper
         var team = ExtractTeamInfo(firstTeamGeneralInfo);
         var secondTeam = ExtractTeamInfo(secondTeamGeneralInfo);
         
+        Console.WriteLine(team.ToString());
+        Console.WriteLine(secondTeam.ToString());
     }
 
     private Team ExtractTeamInfo(HtmlNode node)
     {
-        throw new NotImplementedException();
+        var teamName = node.SelectSingleNode("./child::td").InnerText.Replace("&nbsp;", "");
+        var quarterPoints = node.SelectNodes("./child::td[contains(@class, 'center')]");
+        var points = ExtractQuarterPoints(quarterPoints);
+        
+        return new Team
+        {
+            Name = teamName,
+            TotalPoints = GetAllTeamPoints(points),
+            FirstQuarterPoints = points[0],
+            SecondQuarterPoints = points[1],
+            ThirdQuarterPoints = points[2],
+            FourthQuarterPoints = points[3],
+            OtPoints = points[4..],
+        };
+    }
+
+    private List<short> ExtractQuarterPoints(HtmlNodeCollection collection)
+    {
+        List<short> pointsList = new();
+        
+        foreach (var node in collection)
+        {
+            pointsList.Add(short.Parse(node.InnerText));
+        }
+        
+        return pointsList;
+    }
+
+    private short GetAllTeamPoints(List<short> teamPointsList)
+    {
+        short teamPoints = 0;
+
+        foreach (var pts in teamPointsList)
+        {
+            teamPoints += pts;
+        }
+        
+        return teamPoints;
     }
 }
