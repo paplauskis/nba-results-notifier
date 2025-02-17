@@ -1,4 +1,5 @@
 using HtmlAgilityPack;
+using nba_results_notifier.Helpers;
 using nba_results_notifier.Interfaces;
 using nba_results_notifier.Models;
 
@@ -6,20 +7,21 @@ namespace nba_results_notifier.Services;
 
 public class GameScrapingService : IGameScraper
 {
-    private const string URL = "https://www.basketball-reference.com/boxscores/";
     private readonly HtmlWeb _web;
     private readonly HtmlDocument _document;
     private readonly List<Game>? _games = new();
     
     public GameScrapingService() {
         _web = new HtmlWeb();
-        _document = _web.Load(URL);
+        _document = _web.Load(UrlGenerator.GetUrlWithYesterdayDate());
     }
     
     public List<Game>? GetGames()
     {
         HtmlNodeCollection nodes = _document.DocumentNode.SelectNodes("//div/div[contains(@class, 'game_summary')]");
 
+        if (nodes == null) return _games;
+        
         foreach (HtmlNode node in nodes)
         {
             var game = ExtractGameInfo(node);
