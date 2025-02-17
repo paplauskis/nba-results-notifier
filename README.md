@@ -7,4 +7,4 @@
 - Razor
 
 ## Email body that's sent:
-![screenshot](email.png)
+![screenshot](email.jpeg)
