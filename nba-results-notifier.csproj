@@ -7,6 +7,12 @@
         <LangVersion>12</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
+      <PackageReference Include="RazorLight" Version="2.3.1" />
+    </ItemGroup>
 
 </Project>
