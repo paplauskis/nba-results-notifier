@@ -9,8 +9,8 @@ public class EmailService : ISendable
     public Task Send(string subject, string body)
     {
         MailMessage message = ConfigureMessage(subject, body);
-        
-        SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+
+        SmtpClient smtpClient = ConfigureSmtpClient();
         
         return smtpClient.SendMailAsync(message);
     }
@@ -32,6 +32,13 @@ public class EmailService : ISendable
 
     private static SmtpClient ConfigureSmtpClient()
     {
-        throw new NotImplementedException();
+        return new SmtpClient(Environment.GetEnvironmentVariable("HOST"))
+        {
+            Port = 587,
+            Credentials = new NetworkCredential(
+                Environment.GetEnvironmentVariable("SENDER_EMAIL"), 
+                Environment.GetEnvironmentVariable("EMAIL_PASSWORD")),
+            EnableSsl = true,
+        };
     }
 }
