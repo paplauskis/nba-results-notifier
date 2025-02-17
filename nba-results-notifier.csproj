@@ -13,6 +13,9 @@
     <ItemGroup>
       <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
       <PackageReference Include="RazorLight" Version="2.3.1" />
+      <None Update="EmailTemplates\**\*">
+   	 <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+ 	 </None>
     </ItemGroup>
 
 </Project>
