@@ -1,0 +1,83 @@
+@using nba_results_notifier.Models
+@model List<Game>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+        .game_summary { margin-bottom: 80px }
+    </style>
+</head>
+    <body>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var game in Model)
+            {
+                <div class="game_summary">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            @if (game.HomeTeam.OtPoints != null)
+                            {
+                                @foreach (var ot in game.HomeTeam.OtPoints)
+                                    {
+                                        <th>OT</th>
+                                    }
+                            }
+                            <th>Final</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>@game.HomeTeam.Name</td>
+                            <td>@game.HomeTeam.FirstQuarterPoints</td>
+                            <td>@game.HomeTeam.SecondQuarterPoints</td>
+                            <td>@game.HomeTeam.ThirdQuarterPoints</td>
+                            <td>@game.HomeTeam.FourthQuarterPoints</td>
+                            @if (game.HomeTeam.OtPoints != null)
+                            {
+                                @foreach (var ot in game.HomeTeam.OtPoints)
+                                {
+                                    <td>@ot</td>
+                                }
+                            }
+                            <td>@game.HomeTeam.TotalPoints</td>
+                        </tr>
+                        <tr>
+                            <td>@game.AwayTeam.Name</td>
+                            <td>@game.AwayTeam.FirstQuarterPoints</td>
+                            <td>@game.AwayTeam.SecondQuarterPoints</td>
+                            <td>@game.AwayTeam.ThirdQuarterPoints</td>
+                            <td>@game.AwayTeam.FourthQuarterPoints</td>
+                            @if (game.AwayTeam.OtPoints != null)
+                            {
+                                @foreach (var ot in game.AwayTeam.OtPoints)
+                                {
+                                    <td>@ot</td>
+                                }
+                            }
+                            <td>@game.AwayTeam.TotalPoints</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>   
+            }
+        }
+        else
+        {
+        <p>No games were played today.</p>
+        }
+    </body>
+</html>
